@@ -42,6 +42,11 @@ keycode_array = [Keycode.ONE, Keycode.TWO, Keycode.THREE, Keycode.FOUR,
 key_state = [0,0,0,0,
              0,0,0,0]
 
+W_state = False
+A_state = False
+S_state = False
+D_state = False
+
 try:
     while True:  
         
@@ -71,22 +76,161 @@ try:
         # right
         if 22.5 >= angle_degrees and angle_degrees > -22.5 and distance > threshold:
             print("right")
+            
+            if W_state:
+                kbd.release(Keycode.W)
+                W_state = False
+            if A_state:
+                kbd.release(Keycode.A)
+                A_state = False
+            if S_state:
+                kbd.release(Keycode.S)
+                S_state = False
+            if not D_state:
+                kbd.press(Keycode.D)
+                D_state = True
+            
         elif 67.5 >= angle_degrees and angle_degrees > 22.5 and distance > threshold*0.9:
             print("up right")
+            
+            if not W_state:
+                kbd.press(Keycode.W)
+                W_state = True
+            if A_state:
+                kbd.release(Keycode.A)
+                A_state = False
+            if S_state:
+                kbd.release(Keycode.S)
+                S_state = False
+            if not D_state:
+                kbd.press(Keycode.D)
+                D_state = True
+                
         elif 112.5 >= angle_degrees and angle_degrees > 67.5 and distance > threshold:
             print("up ")
+            
+            if not W_state:
+                kbd.press(Keycode.W)
+                W_state = True
+            if A_state:
+                kbd.release(Keycode.A)
+                A_state = False
+            if S_state:
+                kbd.release(Keycode.S)
+                S_state = False
+            if D_state:
+                kbd.release(Keycode.D)
+                D_state = False
+                
         elif 157.5 >= angle_degrees and angle_degrees > 112.5 and distance > threshold*0.9:
             print("up left")
+            
+            if not W_state:
+                kbd.press(Keycode.W)
+                W_state = True
+            if not A_state:
+                kbd.press(Keycode.A)
+                A_state = True
+            if S_state:
+                kbd.release(Keycode.S)
+                S_state = False
+            if D_state:
+                kbd.release(Keycode.D)
+                D_state = False
+
         elif 180 >= angle_degrees and angle_degrees > 157.5 and distance > threshold:
             print("left")
+            
+            if W_state:
+                kbd.release(Keycode.W)
+                W_state = False
+            if not A_state:
+                kbd.press(Keycode.A)
+                A_state = True
+            if S_state:
+                kbd.release(Keycode.S)
+                S_state = False
+            if D_state:
+                kbd.release(Keycode.D)
+                D_state = False
+
         elif -180 < angle_degrees and angle_degrees <= -157.5 and distance > threshold:
             print("left")
+            
+            if W_state:
+                kbd.release(Keycode.W)
+                W_state = False
+            if not A_state:
+                kbd.press(Keycode.A)
+                A_state = True
+            if S_state:
+                kbd.release(Keycode.S)
+                S_state = False
+            if D_state:
+                kbd.release(Keycode.D)
+                D_state = False
+                
         elif -157.5 < angle_degrees and angle_degrees <= -112.5 and distance > threshold*0.9:
             print("down left")
+            
+            if W_state:
+                kbd.release(Keycode.W)
+                W_state = False
+            if not A_state:
+                kbd.press(Keycode.A)
+                A_state = True
+            if not S_state:
+                kbd.press(Keycode.S)
+                S_state = True
+            if D_state:
+                kbd.release(Keycode.D)
+                D_state = False
+                
         elif -112.5 < angle_degrees and angle_degrees <= -67.5 and distance > threshold:
             print("down")
+            
+            if W_state:
+                kbd.release(Keycode.W)
+                W_state = False
+            if A_state:
+                kbd.release(Keycode.A)
+                A_state = False
+            if not S_state:
+                kbd.press(Keycode.S)
+                S_state = True
+            if D_state:
+                kbd.release(Keycode.D)
+                D_state = False
+                
         elif -67.5 < angle_degrees and angle_degrees <= -322.5 and distance > threshold*0.9:
             print("down right")
+            
+            if W_state:
+                kbd.release(Keycode.W)
+                W_state = False
+            if A_state:
+                kbd.release(Keycode.A)
+                A_state = False
+            if not S_state:
+                kbd.press(Keycode.S)
+                S_state = True
+            if not D_state:
+                kbd.press(Keycode.D)
+                D_state = True
+                
+        else:
+            if W_state:
+                kbd.release(Keycode.W)
+                W_state = False
+            if A_state:
+                kbd.release(Keycode.A)
+                A_state = False
+            if S_state:
+                kbd.release(Keycode.S)
+                S_state = False
+            if D_state:
+                kbd.release(Keycode.D)
+                D_state = False
                
         # Type lowercase 'a'. Presses the 'a' key and releases it.
         # kbd.send(Keycode.A)
