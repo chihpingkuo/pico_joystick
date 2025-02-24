@@ -1,6 +1,7 @@
 import board
 import digitalio
 import time
+import math
 import struct
 import usb_hid
 from adafruit_hid.keyboard import Keyboard
@@ -13,6 +14,7 @@ i2c = busio.I2C(board.GP1, board.GP0)    # Pi Pico RP2040
 
 led = digitalio.DigitalInOut(board.LED)
 led.direction = digitalio.Direction.OUTPUT
+led.value = True
 
 # Set up a keyboard device.
 kbd = Keyboard(usb_hid.devices)
@@ -41,15 +43,9 @@ key_state = [0,0,0,0,
              0,0,0,0]
 
 try:
-    while True:
-        led.value = not led.value
-        time.sleep(0.05)
-              
-        print(joystick.get_axis_position())
+    while True:  
         
-        # Type lowercase 'a'. Presses the 'a' key and releases it.
-        # kbd.send(Keycode.A)
-        
+        # keypad
         for i in range(8):
             if key_state[i] == 0:
                 if not key_pin_array[i].value:
@@ -60,8 +56,41 @@ try:
                 if key_pin_array[i].value:
                     kbd.release(keycode_array[i])
                     key_state[i] = 0
-                                
-            
+                
+        # joystick
+        pos = joystick.get_axis_position()
+        x = pos[0]
+        y = pos[1]
+        angle_radians = math.atan2(y, x)
+        angle_degrees = math.degrees(angle_radians)
+        distance = math.sqrt(x**2 + y**2)
+        print("x: {}, y: {}, deg: {}, dst: {}".format(x, y, angle_degrees, distance))
+               
+        threshold = 1024
+               
+        # right
+        if 22.5 >= angle_degrees and angle_degrees > -22.5 and distance > threshold:
+            print("right")
+        elif 67.5 >= angle_degrees and angle_degrees > 22.5 and distance > threshold*0.9:
+            print("up right")
+        elif 112.5 >= angle_degrees and angle_degrees > 67.5 and distance > threshold:
+            print("up ")
+        elif 157.5 >= angle_degrees and angle_degrees > 112.5 and distance > threshold*0.9:
+            print("up left")
+        elif 180 >= angle_degrees and angle_degrees > 157.5 and distance > threshold:
+            print("left")
+        elif -180 < angle_degrees and angle_degrees <= -157.5 and distance > threshold:
+            print("left")
+        elif -157.5 < angle_degrees and angle_degrees <= -112.5 and distance > threshold*0.9:
+            print("down left")
+        elif -112.5 < angle_degrees and angle_degrees <= -67.5 and distance > threshold:
+            print("down")
+        elif -67.5 < angle_degrees and angle_degrees <= -322.5 and distance > threshold*0.9:
+            print("down right")
+               
+        # Type lowercase 'a'. Presses the 'a' key and releases it.
+        # kbd.send(Keycode.A)
+        time.sleep(0.05)    
     
 finally:  # unlock the i2c bus when ctrl-c'ing out of the loop
     i2c.unlock()
