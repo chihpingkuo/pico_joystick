@@ -21,6 +21,8 @@ while not i2c.try_lock():
     pass
 
 joystick = MyJoystick2(i2c)
+joystick.set_axis_x_invert()
+
 
 pins = [board.GP6,  board.GP7,  board.GP8,  board.GP9,
         board.GP10, board.GP11, board.GP12, board.GP13]
@@ -43,7 +45,7 @@ try:
         led.value = not led.value
         time.sleep(0.05)
               
-        #print(joystick.get_axis_position())
+        print(joystick.get_axis_position())
         
         # Type lowercase 'a'. Presses the 'a' key and releases it.
         # kbd.send(Keycode.A)

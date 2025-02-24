@@ -56,11 +56,40 @@ class MyJoystick2:
     def _read_reg_data(self, reg: int = 0, num: int = 0) -> bytearray:
         buf = bytearray(1)
         buf[0] = reg
+        # time.sleep_ms(1)
         time.sleep(0.001)
         self._i2c.writeto(self._addr, buf)
         buf = bytearray(num)
         self._i2c.readfrom_into(self._addr, buf)
         return buf
+    
+    def set_axis_x_invert(self, invert: bool = True) -> None:
+        """
+        note: Invert the X-axis of the joystick.
+
+        label:
+            en: "%1 invert X-axis %2"
+            cn: "%1 反转 X 轴 %2"
+
+        params:
+            invert:
+              note: Whether to invert the X-axis.
+        """
+        self._x_inv = invert
+
+    def set_axis_y_invert(self, invert: bool = True) -> None:
+        """
+        note: Invert the Y-axis of the joystick.
+
+        label:
+            en: "%1 invert Y-axis %2"
+            cn: "%1 反转 Y 轴 %2"
+
+        params:
+            invert:
+              note: Whether to invert the Y-axis.
+        """
+        self._y_inv = invert
     
     def get_axis_position(self) -> tuple:
         """
