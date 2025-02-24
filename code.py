@@ -90,7 +90,7 @@ try:
                 kbd.press(Keycode.D)
                 D_state = True
             
-        elif 67.5 >= angle_degrees and angle_degrees > 22.5 and distance > threshold*0.9:
+        elif 67.5 >= angle_degrees and angle_degrees > 22.5 and distance > threshold*0.8:
             print("up right")
             
             if not W_state:
@@ -122,7 +122,7 @@ try:
                 kbd.release(Keycode.D)
                 D_state = False
                 
-        elif 157.5 >= angle_degrees and angle_degrees > 112.5 and distance > threshold*0.9:
+        elif 157.5 >= angle_degrees and angle_degrees > 112.5 and distance > threshold*0.8:
             print("up left")
             
             if not W_state:
@@ -170,7 +170,7 @@ try:
                 kbd.release(Keycode.D)
                 D_state = False
                 
-        elif -157.5 < angle_degrees and angle_degrees <= -112.5 and distance > threshold*0.9:
+        elif -157.5 < angle_degrees and angle_degrees <= -112.5 and distance > threshold*0.8:
             print("down left")
             
             if W_state:
@@ -202,7 +202,7 @@ try:
                 kbd.release(Keycode.D)
                 D_state = False
                 
-        elif -67.5 < angle_degrees and angle_degrees <= -322.5 and distance > threshold*0.9:
+        elif -67.5 < angle_degrees and angle_degrees <= -22.5 and distance > threshold*0.8:
             print("down right")
             
             if W_state:
